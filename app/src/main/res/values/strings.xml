@@ -14,4 +14,5 @@
     <string name="password_hint">Password</string>
     <string name="login_button_label">Login</string>
     <string name="signup_text">Sign Up</string>
+    <string name="title_activity_signup">SignupActivity</string>
 </resources>
