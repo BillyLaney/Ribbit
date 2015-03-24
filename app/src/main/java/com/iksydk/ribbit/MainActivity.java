@@ -2,6 +2,7 @@ package com.iksydk.ribbit;
 
 import java.util.Locale;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -45,7 +46,9 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = new Intent(this, LoginActivity.class);
 
+        startActivity(intent);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
