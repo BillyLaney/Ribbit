@@ -1,23 +1,23 @@
 package com.iksydk.ribbit;
 
-import java.util.Locale;
-
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.view.Gravity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.parse.ParseAnalytics;
+
+import java.util.Locale;
 
 
 public class MainActivity extends ActionBarActivity implements ActionBar.TabListener
@@ -43,6 +43,8 @@ public class MainActivity extends ActionBarActivity implements ActionBar.TabList
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
