@@ -19,4 +19,6 @@
     <string name="signup_button_label">Signup</string>
     <string name="title_activity_main_activity2">MainActivity2Activity</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="signup_error_message">Please make sure you enter a username, password, and email address!</string>
+    <string name="signup_error_title">Oops!</string>
 </resources>
