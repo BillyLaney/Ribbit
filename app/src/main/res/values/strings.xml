@@ -28,4 +28,9 @@
     <string name="forgot_password_error_title">Oops!</string>
     <string name="empty_messages_text">No new messages :(</string>
     <string name="empty_friends_text">You got no friends!</string>
+    <string name="title_activity_edit_friends">Edit Friends</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="empty_edit_friends_text">There are no other people available?!</string>
+    <string name="error_title">Sorry!</string>
 </resources>
