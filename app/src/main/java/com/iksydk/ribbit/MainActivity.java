@@ -1,6 +1,7 @@
 package com.iksydk.ribbit;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -106,15 +107,24 @@ public class MainActivity extends ActionBarActivity implements android.support.v
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
 
-        if (itemId == R.id.action_logout) {
-            ParseUser.logOut();
-            navigateToLogin();
-        }
-        else if(itemId == R.id.action_edit_friends)
+        switch(itemId)
         {
-            Intent intent = new Intent(this, EditFriendsActivity.class);
-            startActivity(intent);
+            case R.id.loginButton:
+                ParseUser.logOut();
+                navigateToLogin();
+                break;
+            case R.id.action_edit_friends:
+                Intent intent = new Intent(this, EditFriendsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.action_camera:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setItems(R.array.camera_choice, null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                break;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
