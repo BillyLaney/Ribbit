@@ -24,4 +24,9 @@
     <string name="login_error_message">Please make sure you enter Username and Password!</string>
     <string name="login_error_title">Oops!</string>
     <string name="action_logout">Logout</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
+    <string name="forgot_password_button">Forgot Password</string>
+    <string name="forgot_password_error_message">Email is blank</string>
+    <string name="forgot_password_error_title">Oops!</string>
 </resources>

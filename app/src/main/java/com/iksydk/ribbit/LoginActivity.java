@@ -24,11 +24,12 @@ import butterknife.InjectView;
 
 public class LoginActivity extends ActionBarActivity
 {
-    @InjectView(R.id.signupTextView) TextView mSignupTextView;
     @InjectView(R.id.usernameEditText) EditText mUsername;
     @InjectView(R.id.passwordEditText) EditText mPassword;
     @InjectView(R.id.loginButton) Button mLoginButton;
     @InjectView(R.id.progressBar) ProgressBar mProgressBar;
+    @InjectView(R.id.signupTextView) TextView mSignupTextView;
+    @InjectView(R.id.forgotPasswordTextView) TextView mForgotPasswordTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,6 +47,16 @@ public class LoginActivity extends ActionBarActivity
             public void onClick(View v)
             {
                 Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        mForgotPasswordTextView.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
                 startActivity(intent);
             }
         });

@@ -36,14 +36,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/signupTextView"
-        android:text="@string/signup_text"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
-
     <ProgressBar
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
@@ -51,4 +43,35 @@
         android:id="@+id/progressBar"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="false">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/signupTextView"
+            android:text="@string/signup_text"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/forgot_password"
+            android:id="@+id/forgotPasswordTextView"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/signupTextView"
+            android:layout_toEndOf="@+id/signupTextView"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"/>
+    </LinearLayout>
 </RelativeLayout>
