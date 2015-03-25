@@ -2,6 +2,7 @@ package com.iksydk.ribbit;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -32,6 +33,24 @@ public class MainActivity extends ActionBarActivity implements android.support.v
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
+    protected DialogInterface.OnClickListener mDialogOnClickListener = new DialogInterface.OnClickListener()
+    {
+        @Override
+        public void onClick(DialogInterface dialog, int which)
+        {
+            switch(which)
+            {
+                case 0: //take picture
+                    break;
+                case 1: //take video
+                    break;
+                case 2://choose picture
+                    break;
+                case 3://choose video
+                    break;
+            }
+        }
+    };
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -119,7 +138,7 @@ public class MainActivity extends ActionBarActivity implements android.support.v
                 break;
             case R.id.action_camera:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setItems(R.array.camera_choice, null);
+                builder.setItems(R.array.camera_choice, mDialogOnClickListener);
                 AlertDialog dialog = builder.create();
                 dialog.show();
                 break;
