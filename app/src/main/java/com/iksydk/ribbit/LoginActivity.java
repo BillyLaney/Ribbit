@@ -130,12 +130,10 @@ public class LoginActivity extends ActionBarActivity
         if(show)
         {
             mProgressBar.setVisibility(View.VISIBLE);
-            mSignupTextView.setVisibility(View.INVISIBLE);
         }
         else
         {
             mProgressBar.setVisibility(View.INVISIBLE);
-            mSignupTextView.setVisibility(View.VISIBLE);
         }
     }
 
