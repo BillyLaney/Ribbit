@@ -126,6 +126,7 @@ public class MainActivity extends ActionBarActivity implements android.support.v
                     return null;
                 }
 
+                Log.d(TAG, Uri.fromFile(mediaFile).toString());
 
                 return Uri.fromFile(mediaFile);
             }
