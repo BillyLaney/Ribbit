@@ -34,6 +34,7 @@
     <string name="empty_edit_friends_text">There are no other people available?!</string>
     <string name="error_title">Sorry!</string>
     <string name="menu_camera_title">Camera</string>
+    <string name="error_external_storage_unavailable">External storage not available</string>
     <string-array name="camera_choice">
         <item>Take Picture</item>
         <item>Take Video</item>

@@ -4,21 +4,25 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class MainActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener
 {
@@ -29,6 +33,12 @@ public class MainActivity extends ActionBarActivity implements android.support.v
     public static final int TAKE_VIDEO_REQUEST = 1;
     public static final int CHOOSE_PICTURE_REQUEST = 2;
     public static final int CHOOSE_VIDEO_REQUEST = 3;
+
+    public static final int MEDIA_TYPE_IMAGE = 4;
+    public static final int MEDIA_TYPE_VIDEO = 5;
+
+    protected Uri mMediaUri;
+
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -47,7 +57,17 @@ public class MainActivity extends ActionBarActivity implements android.support.v
             {
                 case 0: //take picture
                     Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+                    mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                    if(mMediaUri==null)
+                    {
+                        Toast.makeText(MainActivity.this, getString(R.string.error_external_storage_unavailable), Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                        startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+                    }
+
                     break;
                 case 1: //take video
                     break;
@@ -55,6 +75,60 @@ public class MainActivity extends ActionBarActivity implements android.support.v
                     break;
                 case 3://choose video
                     break;
+            }
+        }
+
+        private boolean isExternalStorageAvailable()
+        {
+            String state = Environment.getExternalStorageState();
+            if(state.equals(Environment.MEDIA_MOUNTED))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private Uri getOutputMediaFileUri(int mediaType)
+        {
+            // To be safe, you should check that the SDCard is mounted
+            // using Environment.getExternalStorageState() before doing this.
+            if(isExternalStorageAvailable())
+            {
+                File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES), "MyCameraApp");
+                // This location works best if you want the created images to be shared
+                // between applications and persist after your app has been uninstalled.
+
+                // Create the storage directory if it does not exist
+                if (! mediaStorageDir.exists()){
+                    if (! mediaStorageDir.mkdirs()){
+                        Log.d("MyCameraApp", "failed to create directory");
+                        return null;
+                    }
+                }
+
+                // Create a media file name
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+                File mediaFile;
+                if (mediaType == MEDIA_TYPE_IMAGE){
+                    mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                            "IMG_"+ timeStamp + ".jpg");
+                } else if(mediaType == MEDIA_TYPE_VIDEO) {
+                    mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                            "VID_"+ timeStamp + ".mp4");
+                } else {
+                    return null;
+                }
+
+
+                return Uri.fromFile(mediaFile);
+            }
+            else
+            {
+                return null;
             }
         }
     };
