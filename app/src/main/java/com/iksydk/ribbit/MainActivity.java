@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -24,6 +25,10 @@ public class MainActivity extends ActionBarActivity implements android.support.v
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
+    public static final int TAKE_PHOTO_REQUEST = 0;
+    public static final int TAKE_VIDEO_REQUEST = 1;
+    public static final int CHOOSE_PICTURE_REQUEST = 2;
+    public static final int CHOOSE_VIDEO_REQUEST = 3;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -41,6 +46,8 @@ public class MainActivity extends ActionBarActivity implements android.support.v
             switch(which)
             {
                 case 0: //take picture
+                    Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
                     break;
                 case 1: //take video
                     break;
