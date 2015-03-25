@@ -33,4 +33,5 @@
     <string name="hello_world">Hello world!</string>
     <string name="empty_edit_friends_text">There are no other people available?!</string>
     <string name="error_title">Sorry!</string>
+    <string name="menu_camera_title">Camera</string>
 </resources>
