@@ -45,4 +45,6 @@
         <item>Choose Picture</item>
         <item>Choose Video</item>
     </string-array>
+    <string name="title_activity_recipients">Choose Recipients</string>
+    <string name="recipients_activity_no_friends">You haven\'t chosen any friends!</string>
 </resources>

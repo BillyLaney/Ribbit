@@ -44,85 +44,6 @@ public class MainActivity extends ActionBarActivity implements android.support.v
 
     protected Uri mMediaUri;
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(resultCode == RESULT_OK)
-        {
-            if(requestCode == CHOOSE_PICTURE_REQUEST || requestCode == CHOOSE_VIDEO_REQUEST)
-            {
-                if(data == null)
-                {
-                    Toast.makeText(this, getString(R.string.general_error), Toast.LENGTH_LONG)
-                            .show();
-                }
-                else
-                {
-                    mMediaUri = data.getData();
-
-                    Log.i(TAG, "Mediate URL: " + mMediaUri);
-
-                    if(requestCode == CHOOSE_VIDEO_REQUEST)
-                    {
-                        //make sure file is less than 10MB
-                        int fileSize = 0;
-
-                        InputStream inputStream = null;
-                        try
-                        {
-                            inputStream = getContentResolver().openInputStream(mMediaUri);
-                            fileSize = inputStream.available();
-                        }
-                        catch(FileNotFoundException e)
-                        {
-                            Toast.makeText(this, getString(R.string.error_opening_file), Toast.LENGTH_LONG)
-                                    .show();
-                            return;
-                        }
-                        catch(IOException e)
-                        {
-                            Toast.makeText(this, getString(R.string.error_opening_file), Toast.LENGTH_LONG)
-                                    .show();
-                            return;
-                        }
-                        finally
-                        {
-                            try
-                            {
-                                inputStream.close();
-                            }
-                            catch(IOException e)
-                            {
-                                //intentionally left blank
-                                return;
-                            }
-                        }
-
-                        if(fileSize >= FILE_SIZE_LIMIT)
-                        {
-                            Toast.makeText(this, getString(R.string.error_file_size_too_large), Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                //add to gallery
-                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                mediaScanIntent.setData(mMediaUri);
-                sendBroadcast(mediaScanIntent);
-            }
-        }
-        else if(resultCode != RESULT_CANCELED)
-        {
-            Toast.makeText(this, getString(R.string.general_error), Toast.LENGTH_LONG)
-                    .show();
-        }
-    }
-
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -371,5 +292,86 @@ public class MainActivity extends ActionBarActivity implements android.support.v
     {
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if(resultCode == RESULT_OK)
+        {
+            if(requestCode == CHOOSE_PICTURE_REQUEST || requestCode == CHOOSE_VIDEO_REQUEST)
+            {
+                if(data == null)
+                {
+                    Toast.makeText(this, getString(R.string.general_error), Toast.LENGTH_LONG)
+                            .show();
+                }
+                else
+                {
+                    mMediaUri = data.getData();
+
+                    Log.i(TAG, "Mediate URL: " + mMediaUri);
+
+                    if(requestCode == CHOOSE_VIDEO_REQUEST)
+                    {
+                        //make sure file is less than 10MB
+                        int fileSize = 0;
+
+                        InputStream inputStream = null;
+                        try
+                        {
+                            inputStream = getContentResolver().openInputStream(mMediaUri);
+                            fileSize = inputStream.available();
+                        }
+                        catch(FileNotFoundException e)
+                        {
+                            Toast.makeText(this, getString(R.string.error_opening_file), Toast.LENGTH_LONG)
+                                    .show();
+                            return;
+                        }
+                        catch(IOException e)
+                        {
+                            Toast.makeText(this, getString(R.string.error_opening_file), Toast.LENGTH_LONG)
+                                    .show();
+                            return;
+                        }
+                        finally
+                        {
+                            try
+                            {
+                                inputStream.close();
+                            }
+                            catch(IOException e)
+                            {
+                                //intentionally left blank
+                                return;
+                            }
+                        }
+
+                        if(fileSize >= FILE_SIZE_LIMIT)
+                        {
+                            Toast.makeText(this, getString(R.string.error_file_size_too_large), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //add to gallery
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                mediaScanIntent.setData(mMediaUri);
+                sendBroadcast(mediaScanIntent);
+            }
+
+            Intent recipientsIntent = new Intent(this, RecipientsActivity.class);
+            recipientsIntent.setData(mMediaUri);
+            startActivity(recipientsIntent);
+        }
+        else if(resultCode != RESULT_CANCELED)
+        {
+            Toast.makeText(this, getString(R.string.general_error), Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
 }
