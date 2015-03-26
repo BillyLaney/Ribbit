@@ -3,6 +3,7 @@ package com.iksydk.ribbit;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,8 +70,15 @@ public class InboxFragment extends ListFragment
                         i++;
                     }
 
-                    MessageAdapter adapter = new MessageAdapter(getListView().getContext(), messages);
-                    setListAdapter(adapter);
+                    if(getListView().getAdapter() == null)
+                    {
+                        MessageAdapter adapter = new MessageAdapter(getListView().getContext(), messages);
+                        setListAdapter(adapter);
+                    }
+                    else
+                    {
+                        ((MessageAdapter)getListView().getAdapter()).refill(messages);
+                    }
                 }
                 else
                 {
@@ -104,6 +112,8 @@ public class InboxFragment extends ListFragment
             intent.setDataAndType(fileUri, "video/*");
             startActivity(intent);
         }
+
+        //delete the image
     }
 
     public void showProgress(boolean show)
