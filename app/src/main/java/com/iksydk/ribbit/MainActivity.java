@@ -142,7 +142,7 @@ public class MainActivity extends ActionBarActivity implements android.support.v
 
         switch(itemId)
         {
-            case R.id.loginButton:
+            case R.id.action_logout:
                 ParseUser.logOut();
                 navigateToLogin();
                 break;
