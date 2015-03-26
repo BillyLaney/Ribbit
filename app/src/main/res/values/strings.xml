@@ -47,4 +47,8 @@
     </string-array>
     <string name="title_activity_recipients">Choose Recipients</string>
     <string name="recipients_activity_no_friends">You haven\'t chosen any friends!</string>
+    <string name="error_selecting_file">THere was an error with the file selected. Please try a different file</string>
+    <string name="error_selecting_file_title">We\'re sorry!</string>
+    <string name="success_message_sent">Message sent!</string>
+    <string name="error_sending_message">There was an error sending your message. Please try again.</string>
 </resources>

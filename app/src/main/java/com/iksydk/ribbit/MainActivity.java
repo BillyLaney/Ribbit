@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
@@ -366,6 +367,10 @@ public class MainActivity extends ActionBarActivity implements android.support.v
 
             Intent recipientsIntent = new Intent(this, RecipientsActivity.class);
             recipientsIntent.setData(mMediaUri);
+
+            String fileType = (requestCode == CHOOSE_PICTURE_REQUEST || requestCode == TAKE_PHOTO_REQUEST) ? ParseConstants.TYPE_IMAGE : ParseConstants.TYPE_VIDEO;
+            recipientsIntent.putExtra(ParseConstants.KEY_FILE_TYPE, fileType);
+
             startActivity(recipientsIntent);
         }
         else if(resultCode != RESULT_CANCELED)

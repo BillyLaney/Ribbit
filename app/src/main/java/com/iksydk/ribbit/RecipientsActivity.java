@@ -2,8 +2,7 @@ package com.iksydk.ribbit;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
-import android.support.v4.app.ListFragment;
-import android.support.v7.app.ActionBarActivity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -12,13 +11,18 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,15 +33,22 @@ public class RecipientsActivity extends ListActivity
     protected ParseRelation<ParseUser> mFriendsRelation;
     protected ParseUser mCurrentUser;
     protected ProgressBar mProgressBar;
+    protected MenuItem mSendMenuItem;
+    protected Uri mMediaUrl;
+    protected String mFileType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipients);
-        mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
+        mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        mMediaUrl = getIntent().getData();
+        mFileType = getIntent().getExtras()
+                .getString(ParseConstants.KEY_FILE_TYPE);
     }
 
     @Override
@@ -101,10 +112,25 @@ public class RecipientsActivity extends ListActivity
     }
 
     @Override
+    protected void onListItemClick(ListView listView, View view, int position, long id)
+    {
+        super.onListItemClick(listView, view, position, id);
+        if(listView.getCheckedItemCount() > 0)
+        {
+            mSendMenuItem.setVisible(true);
+        }
+        else
+        {
+            mSendMenuItem.setVisible(false);
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu)
     {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_recipients, menu);
+        mSendMenuItem = menu.getItem(0);
         return true;
     }
 
@@ -121,7 +147,94 @@ public class RecipientsActivity extends ListActivity
         {
             return true;
         }
+        else if(id == R.id.action_send_now)
+        {
+            ParseObject message = createMessage();
+            if(message == null)
+            {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(getString(R.string.error_selecting_file))
+                        .setTitle(getString(R.string.error_selecting_file_title))
+                        .setPositiveButton(android.R.string.ok, null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+            else
+            {
+                send(message);
+                finish();
+            }
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void send(ParseObject message)
+    {
+        message.saveInBackground(new SaveCallback()
+        {
+            @Override
+            public void done(ParseException e)
+            {
+                if(e == null)
+                {
+                    Toast.makeText(RecipientsActivity.this, getString(R.string.success_message_sent), Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RecipientsActivity.this);
+                    builder.setMessage(getString(R.string.error_sending_message))
+                            .setTitle(getString(R.string.error_selecting_file_title))
+                            .setPositiveButton(android.R.string.ok, null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+        });
+    }
+
+    protected ParseObject createMessage()
+    {
+        ParseObject message = new ParseObject(ParseConstants.CLASS_MESSAGE);
+        message.put(ParseConstants.KEY_SENDER_ID, ParseUser.getCurrentUser()
+                .getObjectId());
+        message.put(ParseConstants.KEY_SENDER_NAME, ParseUser.getCurrentUser()
+                .getUsername());
+        message.put(ParseConstants.KEY_RECIPIENT_IDS, getRecipientIds());
+        message.put(ParseConstants.KEY_FILE_TYPE, mFileType);
+
+        byte[] fileBytes = FileHelper.getByteArrayFromFile(this, mMediaUrl);
+        if(fileBytes == null)
+        {
+            return null;
+        }
+        else
+        {
+            if(mFileType.equals(ParseConstants.TYPE_IMAGE))
+            {
+                fileBytes = FileHelper.reduceImageForUpload(fileBytes);
+            }
+
+            String fileName = FileHelper.getFileName(this, mMediaUrl, mFileType);
+
+            ParseFile file = new ParseFile(fileName, fileBytes);
+            message.put(ParseConstants.KEY_FILE, file);
+
+            return message;
+        }
+    }
+
+    private ArrayList<String> getRecipientIds()
+    {
+        ArrayList<String> recipientIds = new ArrayList<>();
+        for(int i = 0; i < getListView().getCount(); i++)
+        {
+            if(getListView().isItemChecked(i))
+            {
+                recipientIds.add(mFriends.get(i)
+                        .getObjectId());
+            }
+        }
+        return recipientIds;
     }
 }
