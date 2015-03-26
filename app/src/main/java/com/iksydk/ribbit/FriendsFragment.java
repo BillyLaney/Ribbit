@@ -18,9 +18,6 @@ import com.parse.ParseUser;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 /**
  * Created by Billy on 3/24/2015.
  */

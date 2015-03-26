@@ -13,9 +13,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.parse.Parse;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
@@ -28,6 +29,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class MainActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener
 {
@@ -44,7 +46,6 @@ public class MainActivity extends ActionBarActivity implements android.support.v
     public static final int FILE_SIZE_LIMIT = 1 * 1024 * 1024 * 10; //10MB
 
     protected Uri mMediaUri;
-
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -54,123 +55,7 @@ public class MainActivity extends ActionBarActivity implements android.support.v
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
-    protected DialogInterface.OnClickListener mDialogOnClickListener = new DialogInterface.OnClickListener()
-    {
-        @Override
-        public void onClick(DialogInterface dialog, int which)
-        {
-            switch(which)
-            {
-                case 0: //take picture
-                    Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
-                    if(mMediaUri == null)
-                    {
-                        Toast.makeText(MainActivity.this, getString(R.string.error_external_storage_unavailable), Toast.LENGTH_LONG)
-                                .show();
-                    }
-                    else
-                    {
-                        takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
-                        startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
-                    }
 
-                    break;
-                case 1: //take video
-                    Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                    mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
-                    if(mMediaUri == null)
-                    {
-                        Toast.makeText(MainActivity.this, getString(R.string.error_external_storage_unavailable), Toast.LENGTH_LONG)
-                                .show();
-                    }
-                    else
-                    {
-                        videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
-                        videoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
-                        videoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
-                        startActivityForResult(videoIntent, TAKE_VIDEO_REQUEST);
-                    }
-                    break;
-                case 2://choose picture
-                    Intent choosePhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                    choosePhotoIntent.setType("image/*");
-                    startActivityForResult(choosePhotoIntent, CHOOSE_PICTURE_REQUEST);
-                    break;
-                case 3://choose video
-                    Toast.makeText(MainActivity.this, getString(R.string.video_file_size_warning), Toast.LENGTH_LONG).show();
-                    Intent chooseVideoIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                    chooseVideoIntent.setType("video/*");
-                    startActivityForResult(chooseVideoIntent, CHOOSE_VIDEO_REQUEST);
-                    break;
-            }
-        }
-
-        private boolean isExternalStorageAvailable()
-        {
-            String state = Environment.getExternalStorageState();
-            if(state.equals(Environment.MEDIA_MOUNTED))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private Uri getOutputMediaFileUri(int mediaType)
-        {
-            // To be safe, you should check that the SDCard is mounted
-            // using Environment.getExternalStorageState() before doing this.
-            if(isExternalStorageAvailable())
-            {
-                String appName = MainActivity.this.getString(R.string.app_name);
-
-                File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES), appName);
-                // This location works best if you want the created images to be shared
-                // between applications and persist after your app has been uninstalled.
-
-                // Create the storage directory if it does not exist
-                if(!mediaStorageDir.exists())
-                {
-                    if(!mediaStorageDir.mkdirs())
-                    {
-                        Log.d(TAG, "failed to create directory");
-                        return null;
-                    }
-                }
-
-                // Create a media file name
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-                File mediaFile;
-                if(mediaType == MEDIA_TYPE_IMAGE)
-                {
-                    mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                            "IMG_" + timeStamp + ".jpg");
-                }
-                else if(mediaType == MEDIA_TYPE_VIDEO)
-                {
-                    mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                            "VID_" + timeStamp + ".mp4");
-                }
-                else
-                {
-                    return null;
-                }
-
-                Log.d(TAG, Uri.fromFile(mediaFile)
-                        .toString());
-
-                return Uri.fromFile(mediaFile);
-            }
-            else
-            {
-                return null;
-            }
-        }
-    };
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -351,7 +236,8 @@ public class MainActivity extends ActionBarActivity implements android.support.v
 
                         if(fileSize >= FILE_SIZE_LIMIT)
                         {
-                            Toast.makeText(this, getString(R.string.error_file_size_too_large), Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, getString(R.string.error_file_size_too_large), Toast.LENGTH_LONG)
+                                    .show();
                             return;
                         }
                     }
@@ -379,4 +265,125 @@ public class MainActivity extends ActionBarActivity implements android.support.v
                     .show();
         }
     }
+
+    protected DialogInterface.OnClickListener mDialogOnClickListener = new DialogInterface.OnClickListener()
+    {
+        @Override
+        public void onClick(DialogInterface dialog, int which)
+        {
+            switch(which)
+            {
+                case 0: //take picture
+                    Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                    if(mMediaUri == null)
+                    {
+                        Toast.makeText(MainActivity.this, getString(R.string.error_external_storage_unavailable), Toast.LENGTH_LONG)
+                                .show();
+                    }
+                    else
+                    {
+                        takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                        startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+                    }
+
+                    break;
+                case 1: //take video
+                    Intent videoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                    mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_VIDEO);
+                    if(mMediaUri == null)
+                    {
+                        Toast.makeText(MainActivity.this, getString(R.string.error_external_storage_unavailable), Toast.LENGTH_LONG)
+                                .show();
+                    }
+                    else
+                    {
+                        videoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                        videoIntent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 10);
+                        videoIntent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 0);
+                        startActivityForResult(videoIntent, TAKE_VIDEO_REQUEST);
+                    }
+                    break;
+                case 2://choose picture
+                    Intent choosePhotoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                    choosePhotoIntent.setType("image/*");
+                    startActivityForResult(choosePhotoIntent, CHOOSE_PICTURE_REQUEST);
+                    break;
+                case 3://choose video
+                    Toast.makeText(MainActivity.this, getString(R.string.video_file_size_warning), Toast.LENGTH_LONG)
+                            .show();
+                    Intent chooseVideoIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                    chooseVideoIntent.setType("video/*");
+                    startActivityForResult(chooseVideoIntent, CHOOSE_VIDEO_REQUEST);
+                    break;
+            }
+        }
+
+        private boolean isExternalStorageAvailable()
+        {
+            String state = Environment.getExternalStorageState();
+            if(state.equals(Environment.MEDIA_MOUNTED))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private Uri getOutputMediaFileUri(int mediaType)
+        {
+            // To be safe, you should check that the SDCard is mounted
+            // using Environment.getExternalStorageState() before doing this.
+            if(isExternalStorageAvailable())
+            {
+                String appName = MainActivity.this.getString(R.string.app_name);
+
+                File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                        Environment.DIRECTORY_PICTURES), appName);
+                // This location works best if you want the created images to be shared
+                // between applications and persist after your app has been uninstalled.
+
+                // Create the storage directory if it does not exist
+                if(!mediaStorageDir.exists())
+                {
+                    if(!mediaStorageDir.mkdirs())
+                    {
+                        Log.d(TAG, "failed to create directory");
+                        return null;
+                    }
+                }
+
+                // Create a media file name
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+                File mediaFile;
+                if(mediaType == MEDIA_TYPE_IMAGE)
+                {
+                    mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                            "IMG_" + timeStamp + ".jpg");
+                }
+                else if(mediaType == MEDIA_TYPE_VIDEO)
+                {
+                    mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                            "VID_" + timeStamp + ".mp4");
+                }
+                else
+                {
+                    return null;
+                }
+
+                Log.d(TAG, Uri.fromFile(mediaFile)
+                        .toString());
+
+                return Uri.fromFile(mediaFile);
+            }
+            else
+            {
+                return null;
+            }
+        }
+    };
+
+
 }
