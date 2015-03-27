@@ -1,10 +1,10 @@
 <RelativeLayout
-    style="@style/AuthBackground"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.iksydk.ribbit.SignupActivity">
+    tools:context="com.iksydk.ribbit.SignupActivity"
+    style="@style/AuthBackground">
 
     <ImageView
         android:id="@+id/backgroundImage"
@@ -65,7 +65,7 @@
         />
 
     <Button
-        android:id="@+id/cancelSignupButton"
+        android:id="@+id/cancelButton"
         style="@style/AuthButton"
         android:text="@string/cancel_signup_text"
         android:layout_below="@id/editTextLayout"

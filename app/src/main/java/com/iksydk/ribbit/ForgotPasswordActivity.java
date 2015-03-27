@@ -1,5 +1,6 @@
 package com.iksydk.ribbit;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -24,6 +25,7 @@ public class ForgotPasswordActivity extends Activity
     @InjectView(R.id.emailEditText) EditText mEmailEditText;
     @InjectView(R.id.forgotPasswordButton) Button mForgotPasswordButton;
     @InjectView(R.id.progressBar) ProgressBar mProgressBar;
+    @InjectView(R.id.cancelButton) Button mCancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,6 +33,9 @@ public class ForgotPasswordActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         ButterKnife.inject(this);
+
+        ActionBar actionBar = getActionBar();
+        actionBar.hide();
 
         showProgressBar(false);
 
@@ -88,6 +93,15 @@ public class ForgotPasswordActivity extends Activity
                                 }
                             });
                 }
+            }
+        });
+
+        mCancelButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
             }
         });
     }
