@@ -13,7 +13,7 @@
     <string name="signup_text">Don\'t have an account? Sign up!</string>
     <string name="title_activity_signup">SignupActivity</string>
     <string name="email_hint">Email</string>
-    <string name="signup_button_label">Signup</string>
+    <string name="signup_button_label">SIGN UP</string>
     <string name="title_activity_main_activity2">MainActivity2Activity</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="signup_error_message">Please make sure you enter a username, password, and email address!</string>
@@ -55,4 +55,5 @@
     <string name="application_title">Ribbit</string>
     <string name="content_description_background">Ribbit Frog Background Image</string>
     <string name="application_subtitle">An Iksydk Project</string>
+    <string name="cancel_signup_text">CANCEL</string>
 </resources>

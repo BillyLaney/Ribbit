@@ -26,7 +26,7 @@ public class SignupActivity extends Activity
     @InjectView(R.id.emailEditText) EditText mEmail;
     @InjectView(R.id.signupButton) Button mSignUpButton;
     @InjectView(R.id.progressBar) ProgressBar mProgressBar;
-
+    @InjectView(R.id.cancelSignupButton) Button mCancelSignupButton;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -106,6 +106,15 @@ public class SignupActivity extends Activity
                         }
                     });
                 }
+            }
+        });
+
+        mCancelSignupButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                finish();
             }
         });
     }
