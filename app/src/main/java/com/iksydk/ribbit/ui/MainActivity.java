@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.iksydk.ribbit.ParseConstants;
 import com.iksydk.ribbit.R;
-import com.iksydk.ribbit.SectionsPagerAdapter;
+import com.iksydk.ribbit.adapters.SectionsPagerAdapter;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 
