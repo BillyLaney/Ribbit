@@ -1,4 +1,4 @@
-package com.iksydk.ribbit;
+package com.iksydk.ribbit.ui;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.iksydk.ribbit.MessageAdapter;
+import com.iksydk.ribbit.ParseConstants;
+import com.iksydk.ribbit.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;

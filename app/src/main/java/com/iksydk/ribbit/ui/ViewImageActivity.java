@@ -1,10 +1,11 @@
-package com.iksydk.ribbit;
+package com.iksydk.ribbit.ui;
 
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.iksydk.ribbit.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.Timer;

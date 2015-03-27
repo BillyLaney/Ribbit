@@ -1,4 +1,4 @@
-package com.iksydk.ribbit;
+package com.iksydk.ribbit.ui;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -16,6 +16,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.iksydk.ribbit.ParseConstants;
+import com.iksydk.ribbit.R;
+import com.iksydk.ribbit.SectionsPagerAdapter;
 import com.parse.ParseAnalytics;
 import com.parse.ParseUser;
 

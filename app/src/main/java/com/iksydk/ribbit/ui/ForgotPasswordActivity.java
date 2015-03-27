@@ -1,4 +1,4 @@
-package com.iksydk.ribbit;
+package com.iksydk.ribbit.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.iksydk.ribbit.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;

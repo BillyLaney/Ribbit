@@ -1,4 +1,4 @@
-package com.iksydk.ribbit;
+package com.iksydk.ribbit.ui;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
@@ -13,6 +13,9 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.iksydk.ribbit.FileHelper;
+import com.iksydk.ribbit.ParseConstants;
+import com.iksydk.ribbit.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
