@@ -1,4 +1,4 @@
-package com.iksydk.ribbit;
+package com.iksydk.ribbit.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

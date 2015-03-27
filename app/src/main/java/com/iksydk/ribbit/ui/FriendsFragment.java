@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
-import com.iksydk.ribbit.ParseConstants;
+import com.iksydk.ribbit.utils.ParseConstants;
 import com.iksydk.ribbit.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;

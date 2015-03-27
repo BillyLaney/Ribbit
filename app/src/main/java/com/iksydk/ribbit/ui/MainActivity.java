@@ -16,7 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.iksydk.ribbit.ParseConstants;
+import com.iksydk.ribbit.utils.ParseConstants;
 import com.iksydk.ribbit.R;
 import com.iksydk.ribbit.adapters.SectionsPagerAdapter;
 import com.parse.ParseAnalytics;

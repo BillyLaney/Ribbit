@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.iksydk.ribbit.ParseConstants;
+import com.iksydk.ribbit.utils.ParseConstants;
 import com.iksydk.ribbit.R;
 import com.parse.ParseObject;
 

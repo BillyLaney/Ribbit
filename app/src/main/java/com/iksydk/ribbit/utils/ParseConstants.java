@@ -1,4 +1,4 @@
-package com.iksydk.ribbit;
+package com.iksydk.ribbit.utils;
 
 /**
  * Created by Billy on 3/24/2015.

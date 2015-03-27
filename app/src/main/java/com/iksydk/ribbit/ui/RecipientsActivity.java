@@ -13,8 +13,8 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.iksydk.ribbit.FileHelper;
-import com.iksydk.ribbit.ParseConstants;
+import com.iksydk.ribbit.utils.FileHelper;
+import com.iksydk.ribbit.utils.ParseConstants;
 import com.iksydk.ribbit.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
