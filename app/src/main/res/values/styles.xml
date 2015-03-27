@@ -6,7 +6,7 @@
         <item name="actionBarStyle">@style/ActionBarTheme</item>
     </style>
     <style name="ActionBarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="background">@color/material_blue_grey_800</item>
+
         <item name="logo">@mipmap/ic_launcher</item>
         <item name="displayOptions">useLogo|showHome</item>
     </style>
