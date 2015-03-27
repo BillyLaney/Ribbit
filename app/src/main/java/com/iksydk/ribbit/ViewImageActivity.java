@@ -1,8 +1,8 @@
 package com.iksydk.ribbit;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class ViewImageActivity extends ActionBarActivity
+public class ViewImageActivity extends Activity
 {
     @InjectView(R.id.imageView) ImageView mImageView;
 

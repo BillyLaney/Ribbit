@@ -3,7 +3,6 @@ package com.iksydk.ribbit;
 import android.app.Application;
 
 import com.parse.Parse;
-import com.parse.ParseObject;
 
 /**
  * Created by Billy on 3/24/2015.

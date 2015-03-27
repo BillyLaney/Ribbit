@@ -1,8 +1,8 @@
 package com.iksydk.ribbit;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class ForgotPasswordActivity extends ActionBarActivity
+public class ForgotPasswordActivity extends Activity
 {
     @InjectView(R.id.emailEditText) EditText mEmailEditText;
     @InjectView(R.id.forgotPasswordButton) Button mForgotPasswordButton;
@@ -39,7 +39,8 @@ public class ForgotPasswordActivity extends ActionBarActivity
             @Override
             public void onClick(View v)
             {
-                String email = mEmailEditText.getText().toString();
+                String email = mEmailEditText.getText()
+                        .toString();
 
                 if(email.isEmpty())
                 {

@@ -2,19 +2,18 @@ package com.iksydk.ribbit;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.parse.ParseAnalytics;
@@ -29,9 +28,8 @@ import java.util.Date;
 import java.util.Locale;
 
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
-public class MainActivity extends ActionBarActivity implements android.support.v7.app.ActionBar.TabListener
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener
 {
 
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -81,7 +79,7 @@ public class MainActivity extends ActionBarActivity implements android.support.v
         }
 
         // Set up the action bar.
-        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         actionBar.setLogo(R.mipmap.ic_launcher);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -161,22 +159,6 @@ public class MainActivity extends ActionBarActivity implements android.support.v
 
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onTabSelected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction)
-    {
-        mViewPager.setCurrentItem(tab.getPosition());
-    }
-
-    @Override
-    public void onTabUnselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction)
-    {
-    }
-
-    @Override
-    public void onTabReselected(android.support.v7.app.ActionBar.Tab tab, android.support.v4.app.FragmentTransaction fragmentTransaction)
-    {
     }
 
     @Override
@@ -387,4 +369,21 @@ public class MainActivity extends ActionBarActivity implements android.support.v
     };
 
 
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft)
+    {
+        mViewPager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft)
+    {
+
+    }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft)
+    {
+
+    }
 }

@@ -1,14 +1,17 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="actionBarStyle">@style/ActionBarTheme</item>
-    </style>
-    <style name="ActionBarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="@style/_AppTheme"/>
 
-        <item name="logo">@mipmap/ic_launcher</item>
-        <item name="displayOptions">useLogo|showHome</item>
+    <style name="_AppTheme" parent="android:Theme.Holo.Light">
+
+        <item name="android:editTextBackground">@drawable/apptheme_edit_text_holo_light</item>
+        <item name="android:imageButtonStyle">@style/ImageButtonAppTheme</item>
+
     </style>
+
+    <style name="ImageButtonAppTheme" parent="android:Widget.Holo.Light.ImageButton">
+        <item name="android:background">@drawable/apptheme_btn_default_holo_light</item>
+    </style>
+
 
 </resources>
