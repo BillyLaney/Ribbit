@@ -2,7 +2,7 @@
       xmlns:tools="http://schemas.android.com/tools"
       tools:context="com.iksydk.ribbit.MainActivity">
     <item android:id="@+id/action_send_now"
-          android:icon="@mipmap/ic_action_send_now"
+          android:icon="@mipmap/ic_menu_send"
           android:showAsAction="always"
           android:visible="false"
         >
