@@ -4,15 +4,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.iksydk.ribbit.R;
 import com.iksydk.ribbit.adapters.MessageAdapter;
 import com.iksydk.ribbit.utils.ParseConstants;
-import com.iksydk.ribbit.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -29,7 +31,7 @@ import java.util.List;
 public class InboxFragment extends ListFragment
 {
     protected List<ParseObject> mMessages;
-    protected ProgressBar mProgressBar;
+    protected SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,9 +40,26 @@ public class InboxFragment extends ListFragment
         View rootView = inflater.inflate(R.layout.fragment_inbox,
                 container, false);
 
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.progressBar);
+        mSwipeRefreshLayout = (SwipeRefreshLayout)rootView.findViewById(R.id.swipeRefreshLayout);
+
+        mSwipeRefreshLayout.setOnRefreshListener(getRefreshListener());
+        mSwipeRefreshLayout.setColorSchemeColors(R.color.swipeRefresh1, R.color.swipeRefresh2, R.color.swipeRefresh3, R.color.swipeRefresh4);
+
         showProgress(false);
+
         return rootView;
+    }
+
+    private SwipeRefreshLayout.OnRefreshListener getRefreshListener()
+    {
+        return new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                refreshInbox();
+            }
+        };
     }
 
     @Override
@@ -49,6 +68,11 @@ public class InboxFragment extends ListFragment
         super.onResume();
 
         showProgress(true);
+        refreshInbox();
+    }
+
+    private void refreshInbox()
+    {
         ParseQuery<ParseObject> query = new ParseQuery<>(ParseConstants.CLASS_MESSAGE);
         query.whereEqualTo(ParseConstants.KEY_RECIPIENT_IDS, ParseUser.getCurrentUser()
                 .getObjectId());
@@ -137,17 +161,13 @@ public class InboxFragment extends ListFragment
 
     public void showProgress(boolean show)
     {
-        if(mProgressBar == null)
-        {
-            return;
-        }
         if(show)
         {
-            mProgressBar.setVisibility(View.VISIBLE);
+            mSwipeRefreshLayout.setRefreshing(true);
         }
         else
         {
-            mProgressBar.setVisibility(View.INVISIBLE);
+            mSwipeRefreshLayout.setRefreshing(false);
         }
     }
 }
