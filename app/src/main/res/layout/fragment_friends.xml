@@ -4,13 +4,14 @@
                 android:layout_height="match_parent"
                 tools:context=".MainActivity$DummySectionFragment" >
 
-    <ListView
+    <GridView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@android:id/list"
+        android:id="@+id/gridView"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:numColumns="3"/>
 
     <TextView
         android:id="@android:id/empty"
