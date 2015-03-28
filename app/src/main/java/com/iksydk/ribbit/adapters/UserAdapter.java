@@ -1,7 +1,7 @@
 package com.iksydk.ribbit.adapters;
 
 import android.content.Context;
-import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iksydk.ribbit.R;
-import com.iksydk.ribbit.utils.ParseConstants;
-import com.parse.ParseObject;
+import com.iksydk.ribbit.utils.MD5Util;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +21,7 @@ import java.util.List;
  */
 public class UserAdapter extends ArrayAdapter<ParseUser>
 {
+    private static final String TAG = UserAdapter.class.getSimpleName();
     protected Context mContext;
     protected List<ParseUser> mUsers;
 
@@ -42,7 +42,7 @@ public class UserAdapter extends ArrayAdapter<ParseUser>
             convertView = LayoutInflater.from(mContext)
                     .inflate(R.layout.user_item, null);
             holder = new ViewHolder();
-            //holder.iconImageView = (ImageView) convertView.findViewById(R.id.messageIcon);
+            holder.userImageView = (ImageView) convertView.findViewById(R.id.userImageView);
             holder.nameLabel = (TextView) convertView.findViewById(R.id.nameLabel);
 
             convertView.setTag(holder);
@@ -53,16 +53,24 @@ public class UserAdapter extends ArrayAdapter<ParseUser>
         }
 
         ParseUser user = mUsers.get(position);
+        String email = user.getEmail().toLowerCase();
 
-        /*if(user.getString(ParseConstants.KEY_FILE_TYPE)
-                .equals(ParseConstants.TYPE_IMAGE))
+        if(email.isEmpty())
         {
-            //holder.iconImageView.setImageResource(R.mipmap.ic_picture);
+            holder.userImageView.setImageResource(R.mipmap.avatar_empty);
         }
         else
         {
-            //holder.iconImageView.setImageResource(R.mipmap.ic_video);
-        }*/
+            String hash = MD5Util.md5Hex(email);
+            String gravatarURL = "http://www.gravatar.com/avatar/" + hash + "?s=204&d=404";
+            Log.d(TAG, gravatarURL);
+
+            Picasso.with(getContext())
+                    .load(gravatarURL)
+                    .placeholder(R.mipmap.avatar_empty)
+                    .into(holder.userImageView);
+
+        }
 
         holder.nameLabel.setText(user.getUsername());
 
@@ -71,7 +79,7 @@ public class UserAdapter extends ArrayAdapter<ParseUser>
 
     private static class ViewHolder
     {
-        //ImageView iconImageView;
+        ImageView userImageView;
         TextView nameLabel;
     }
 
