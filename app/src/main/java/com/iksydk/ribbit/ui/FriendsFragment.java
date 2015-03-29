@@ -32,8 +32,6 @@ public class FriendsFragment extends Fragment
     protected List<ParseUser> mFriends;
     protected ParseRelation<ParseUser> mFriendsRelation;
     protected ParseUser mCurrentUser;
-
-    protected ProgressBar mProgressBar;
     protected GridView mGridView;
 
     @Override
@@ -41,7 +39,6 @@ public class FriendsFragment extends Fragment
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.user_grid,
                 container, false);
-        mProgressBar = (ProgressBar)rootView.findViewById(R.id.progressBar);
         mGridView = (GridView)rootView.findViewById(R.id.gridView);
 
         TextView emptyTextView = (TextView)rootView.findViewById(android.R.id.empty);
@@ -109,11 +106,11 @@ public class FriendsFragment extends Fragment
     {
         if(show)
         {
-            mProgressBar.setVisibility(View.VISIBLE);
+            //mProgressBar.setVisibility(View.VISIBLE);
         }
         else
         {
-            mProgressBar.setVisibility(View.INVISIBLE);
+            //mProgressBar.setVisibility(View.INVISIBLE);
         }
     }
 }
