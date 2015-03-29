@@ -24,7 +24,7 @@ public class RibbitApplication extends Application
 
         Parse.initialize(this, "Dh6Vi5zmPLvWQJgaCGzaIG2PbthfiekHsvuLAYJg", "PuCCi8Ojt01mvj3JwzYz60AzwEu538kIculjIvfj");
 
-        PushService.setDefaultPushCallback(this, MainActivity.class);
+        PushService.setDefaultPushCallback(this, MainActivity.class, R.mipmap.ic_stat_ic_launcher);
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }
 
