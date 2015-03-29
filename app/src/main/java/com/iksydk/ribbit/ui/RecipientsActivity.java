@@ -44,7 +44,7 @@ public class RecipientsActivity extends ListActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recipients);
+        setContentView(R.layout.user_grid);
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);

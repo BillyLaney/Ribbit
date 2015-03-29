@@ -1,14 +1,16 @@
 package com.iksydk.ribbit.ui;
 
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.iksydk.ribbit.adapters.UserAdapter;
 import com.iksydk.ribbit.utils.ParseConstants;
 import com.iksydk.ribbit.R;
 import com.parse.FindCallback;
@@ -21,23 +23,29 @@ import com.parse.SaveCallback;
 import java.util.List;
 
 
-public class EditFriendsActivity extends ListActivity
+public class EditFriendsActivity extends Activity
 {
 
     private static final String TAG = EditFriendsActivity.class.getSimpleName();
 
-    protected List<ParseUser> mParseUsers;
+    protected List<ParseUser> mUsers;
     protected ParseRelation<ParseUser> mFriendsRelation;
     protected ParseUser mCurrentUser;
+    protected GridView mGridView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_friends);
+        setContentView(R.layout.user_grid);
 
-        getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        mGridView = (GridView)findViewById(R.id.gridView);
+
+        mGridView.setChoiceMode(GridView.CHOICE_MODE_MULTIPLE);
+
+        TextView emptyTextView = (TextView)findViewById(android.R.id.empty);
+        mGridView.setEmptyView(emptyTextView);
     }
 
     @Override
@@ -61,17 +69,25 @@ public class EditFriendsActivity extends ListActivity
                 if(e == null)
                 {
                     //success
-                    mParseUsers = parseUsers;
-                    String[] usernames = new String[mParseUsers.size()];
+                    mUsers = parseUsers;
+                    String[] usernames = new String[mUsers.size()];
                     int i =0;
-                    for(ParseUser user : mParseUsers)
+                    for(ParseUser user : mUsers)
                     {
                         usernames[i] = user.getUsername();
                         i++;
                     }
 
-                    ArrayAdapter<String> adapter = new ArrayAdapter<>(EditFriendsActivity.this, android.R.layout.simple_list_item_checked, usernames);
-                    setListAdapter(adapter);
+
+                    if(mGridView.getAdapter() == null)
+                    {
+                        UserAdapter adapter = new UserAdapter(EditFriendsActivity.this, mUsers);
+                        mGridView.setAdapter(adapter);
+                    }
+                    else
+                    {
+                        ((UserAdapter)mGridView.getAdapter()).refill(mUsers);
+                    }
 
                     addFriendCheckmarks();
                 }
@@ -100,15 +116,15 @@ public class EditFriendsActivity extends ListActivity
                 if(e == null)
                 {
                     //list returned - look for a match
-                    for(int i=0;i< mParseUsers.size(); i++)
+                    for(int i=0;i< mUsers.size(); i++)
                     {
-                        ParseUser user = mParseUsers.get(i);
+                        ParseUser user = mUsers.get(i);
                         for(ParseUser friend: friends)
                         {
                             if(friend.getObjectId().equals(user.getObjectId()))
                             {
                                 //found friend, set checkmark
-                                getListView().setItemChecked(i, true);
+                                mGridView.setItemChecked(i, true);
                             }
                         }
                     }
@@ -138,31 +154,31 @@ public class EditFriendsActivity extends ListActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onListItemClick(ListView l, View v, int position, long id)
-    {
-        super.onListItemClick(l, v, position, id);
-        if(getListView().isItemChecked(position))
-        {
-            //add friend
-            mFriendsRelation.add(mParseUsers.get(position));
-        }
-        else
-        {
-            //remove friend
-            mFriendsRelation.remove(mParseUsers.get(position));
-        }
-
-        mCurrentUser.saveInBackground(new SaveCallback()
-        {
-            @Override
-            public void done(ParseException e)
-            {
-                if(e != null)
-                {
-                    Log.e(TAG, e.getMessage());
-                }
-            }
-        });
-    }
+//    @Override
+//    protected void onListItemClick(ListView l, View v, int position, long id)
+//    {
+//        super.onListItemClick(l, v, position, id);
+//        if(getListView().isItemChecked(position))
+//        {
+//            //add friend
+//            mFriendsRelation.add(mUsers.get(position));
+//        }
+//        else
+//        {
+//            //remove friend
+//            mFriendsRelation.remove(mUsers.get(position));
+//        }
+//
+//        mCurrentUser.saveInBackground(new SaveCallback()
+//        {
+//            @Override
+//            public void done(ParseException e)
+//            {
+//                if(e != null)
+//                {
+//                    Log.e(TAG, e.getMessage());
+//                }
+//            }
+//        });
+//    }
 }
