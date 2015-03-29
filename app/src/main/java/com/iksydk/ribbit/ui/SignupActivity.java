@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.iksydk.ribbit.R;
+import com.iksydk.ribbit.RibbitApplication;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -85,6 +86,7 @@ public class SignupActivity extends Activity
                             showProgressBar(false);
                             if(e == null)
                             {
+                                RibbitApplication.updateParseInstallation(ParseUser.getCurrentUser());
                                 //Successfully created a new user
                                 Intent intent = new Intent(SignupActivity.this, MainActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

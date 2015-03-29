@@ -25,7 +25,9 @@ import com.iksydk.ribbit.R;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
@@ -182,6 +184,7 @@ public class RecipientsActivity extends Activity
                 if(e == null)
                 {
                     Toast.makeText(RecipientsActivity.this, getString(R.string.success_message_sent), Toast.LENGTH_LONG).show();
+                    sendPushNotification();
                 }
                 else
                 {
@@ -194,6 +197,18 @@ public class RecipientsActivity extends Activity
                 }
             }
         });
+    }
+
+    private void sendPushNotification() {
+        ParseQuery<ParseInstallation> query = ParseInstallation.getQuery();
+        query.whereContainedIn(ParseConstants.KEY_USER_ID, getRecipientIds());
+
+        //send notification
+        ParsePush push = new ParsePush();
+        push.setQuery(query);
+
+        push.setMessage(getString(R.string.push_message, ParseUser.getCurrentUser().getUsername()));
+        push.sendInBackground();
     }
 
     protected ParseObject createMessage()

@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.iksydk.ribbit.R;
+import com.iksydk.ribbit.RibbitApplication;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -100,6 +101,7 @@ public class LoginActivity extends Activity
                             showProgressBar(false);
                             if(e == null)
                             {
+                                RibbitApplication.updateParseInstallation(parseUser);
                                 //Success!
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class)
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
